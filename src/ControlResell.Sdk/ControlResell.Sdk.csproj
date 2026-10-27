@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ControlResell.Sdk</RootNamespace>
+    <AssemblyName>ControlResell.Sdk</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- The generated client documents its operations; the hand-written layer documents what it exposes. -->
+    <NoWarn>$(NoWarn);CS1591;CS1573;CS1570;CS1587;CS8618</NoWarn>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <PackageId>ControlResell.Sdk</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>ControlResell</Authors>
+    <Company>Guimauve Digital</Company>
+    <Description>.NET client for the ControlResell public API: typed operations generated from its OpenAPI document, with retries, idempotency keys, cursor pagination and typed errors.</Description>
+    <PackageTags>controlresell;resale;vinted;ebay;api;sdk</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://controlresell.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/controlresell/csharp-sdk</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <InternalsVisibleTo Include="ControlResell.Sdk.Tests" />
+  </ItemGroup>
+
+</Project>

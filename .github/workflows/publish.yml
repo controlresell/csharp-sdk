@@ -1,0 +1,20 @@
+name: Publish
+# Manual only. Publishing to NuGet is not enabled yet: this builds, tests and packs the package, without any registry credential.
+# By hand, from a clean checkout of main: `dotnet pack src/ControlResell.Sdk -c Release` then `dotnet nuget push` of the .nupkg and
+# .snupkg with a NuGet API key (package id `ControlResell.Sdk`, the `ControlResell.` prefix to reserve beforehand on nuget.org).
+on:
+  workflow_dispatch:
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - run: dotnet test --configuration Release
+      - name: Pack (no publication)
+        run: dotnet pack src/ControlResell.Sdk --configuration Release --output ./artifacts
