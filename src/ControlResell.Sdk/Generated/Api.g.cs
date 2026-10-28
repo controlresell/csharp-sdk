@@ -899,10 +899,10 @@ namespace ControlResell.Sdk
         /// Publish an item on the seller's accounts
         /// </summary>
         /// <remarks>
-        /// Schedules the publication of one item of the seller's stock on the given marketplace accounts, now. The publication runs on the account's browser: read its result on `GET /items/{id}/listings`. To cross-list an item ("list it on eBay"), call this route with that account: this API never relays a marketplace's own API. Publishing one item on several accounts of the same marketplace risks a strike from it: name only the accounts you mean. Requires `items:write` and an `Idempotency-Key`.
+        /// Schedules the publication of one item of the seller's stock on the given marketplace accounts, now or at `scheduledAt` (at most 30 days ahead). The publication runs on the account's browser: read its result on `GET /items/{id}/listings`. To cross-list an item ("list it on eBay"), call this route with that account: this API never relays a marketplace's own API. Publishing one item on several accounts of the same marketplace risks a strike from it: name only the accounts you mean. Requires `items:write` and an `Idempotency-Key`.
         /// </remarks>
         /// <param name="id">The item's identifier, a number.</param>
-        /// <returns>The publication is scheduled on every account of the request.</returns>
+        /// <returns>The publication is scheduled on every account of the request, at `scheduledAt`.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ScheduledAction> PublishItemAsync(long id, PublishRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -911,10 +911,10 @@ namespace ControlResell.Sdk
         /// Lower the price of an item's listings
         /// </summary>
         /// <remarks>
-        /// Schedules a price drop of the item's existing listings, now, like the price drop of the app: the listings are updated, not republished. `value` is what is removed from each listing's current price, never the new price. Without `accountIds`, every account the item is online on. Requires `items:write` and an `Idempotency-Key`.
+        /// Schedules a price drop of the item's existing listings, now or at `scheduledAt` (at most 30 days ahead), like the price drop of the app: the listings are updated, not republished. `value` is what is removed from each listing's current price, never the new price. Without `accountIds`, every account the item is online on. Requires `items:write` and an `Idempotency-Key`.
         /// </remarks>
         /// <param name="id">The item's identifier, a number.</param>
-        /// <returns>The price drop is scheduled on every account named.</returns>
+        /// <returns>The price drop is scheduled on every account named, at `scheduledAt`.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ScheduledAction> DropItemPriceAsync(long id, PriceDropRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -923,7 +923,7 @@ namespace ControlResell.Sdk
         /// Republish an item on the seller's accounts
         /// </summary>
         /// <remarks>
-        /// Schedules the republication of one item of the seller's stock, now, exactly as the app and the MCP tool `republish_items` do: ControlResell deletes the listing and publishes it again from the item it holds, with the same safeguards (republication pace, publication guards). eBay, Shopify and Etsy do not republish: their accounts are refused (`republish_not_supported`). Without `accountIds`, every account the item is listed on. The republication runs on the account's browser: read its result on `GET /items/{id}/listings`.
+        /// Schedules the republication of one item of the seller's stock, now or at `scheduledAt` (at most 30 days ahead), exactly as the app and the MCP tool `republish_items` do: ControlResell deletes the listing and publishes it again from the item it holds, with the same safeguards (republication pace, publication guards). eBay, Shopify and Etsy do not republish: their accounts are refused (`republish_not_supported`). Without `accountIds`, every account the item is listed on. The republication runs on the account's browser: read its result on `GET /items/{id}/listings`.
         /// <br/>
         /// <br/>This API never relays a marketplace's own API (Vinted, eBay…): every write runs a ControlResell use case on an item of the seller's stock. To cross-list an item on another account or marketplace ("list it on eBay"), call `POST /items/{id}/publish` with that account. Requires `items:write` and an `Idempotency-Key`; costs 5 units of the rate limit.
         /// </remarks>
@@ -1968,10 +1968,10 @@ namespace ControlResell.Sdk
         /// Publish an item on the seller's accounts
         /// </summary>
         /// <remarks>
-        /// Schedules the publication of one item of the seller's stock on the given marketplace accounts, now. The publication runs on the account's browser: read its result on `GET /items/{id}/listings`. To cross-list an item ("list it on eBay"), call this route with that account: this API never relays a marketplace's own API. Publishing one item on several accounts of the same marketplace risks a strike from it: name only the accounts you mean. Requires `items:write` and an `Idempotency-Key`.
+        /// Schedules the publication of one item of the seller's stock on the given marketplace accounts, now or at `scheduledAt` (at most 30 days ahead). The publication runs on the account's browser: read its result on `GET /items/{id}/listings`. To cross-list an item ("list it on eBay"), call this route with that account: this API never relays a marketplace's own API. Publishing one item on several accounts of the same marketplace risks a strike from it: name only the accounts you mean. Requires `items:write` and an `Idempotency-Key`.
         /// </remarks>
         /// <param name="id">The item's identifier, a number.</param>
-        /// <returns>The publication is scheduled on every account of the request.</returns>
+        /// <returns>The publication is scheduled on every account of the request, at `scheduledAt`.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ScheduledAction> PublishItemAsync(long id, PublishRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -2162,10 +2162,10 @@ namespace ControlResell.Sdk
         /// Lower the price of an item's listings
         /// </summary>
         /// <remarks>
-        /// Schedules a price drop of the item's existing listings, now, like the price drop of the app: the listings are updated, not republished. `value` is what is removed from each listing's current price, never the new price. Without `accountIds`, every account the item is online on. Requires `items:write` and an `Idempotency-Key`.
+        /// Schedules a price drop of the item's existing listings, now or at `scheduledAt` (at most 30 days ahead), like the price drop of the app: the listings are updated, not republished. `value` is what is removed from each listing's current price, never the new price. Without `accountIds`, every account the item is online on. Requires `items:write` and an `Idempotency-Key`.
         /// </remarks>
         /// <param name="id">The item's identifier, a number.</param>
-        /// <returns>The price drop is scheduled on every account named.</returns>
+        /// <returns>The price drop is scheduled on every account named, at `scheduledAt`.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ScheduledAction> DropItemPriceAsync(long id, PriceDropRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -2356,7 +2356,7 @@ namespace ControlResell.Sdk
         /// Republish an item on the seller's accounts
         /// </summary>
         /// <remarks>
-        /// Schedules the republication of one item of the seller's stock, now, exactly as the app and the MCP tool `republish_items` do: ControlResell deletes the listing and publishes it again from the item it holds, with the same safeguards (republication pace, publication guards). eBay, Shopify and Etsy do not republish: their accounts are refused (`republish_not_supported`). Without `accountIds`, every account the item is listed on. The republication runs on the account's browser: read its result on `GET /items/{id}/listings`.
+        /// Schedules the republication of one item of the seller's stock, now or at `scheduledAt` (at most 30 days ahead), exactly as the app and the MCP tool `republish_items` do: ControlResell deletes the listing and publishes it again from the item it holds, with the same safeguards (republication pace, publication guards). eBay, Shopify and Etsy do not republish: their accounts are refused (`republish_not_supported`). Without `accountIds`, every account the item is listed on. The republication runs on the account's browser: read its result on `GET /items/{id}/listings`.
         /// <br/>
         /// <br/>This API never relays a marketplace's own API (Vinted, eBay…): every write runs a ControlResell use case on an item of the seller's stock. To cross-list an item on another account or marketplace ("list it on eBay"), call `POST /items/{id}/publish` with that account. Requires `items:write` and an `Idempotency-Key`; costs 5 units of the rate limit.
         /// </remarks>
@@ -10535,6 +10535,9 @@ namespace ControlResell.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("cancelBeforeProceeding")]
         public bool? CancelBeforeProceeding { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("scheduledAt")]
+        public System.DateTimeOffset? ScheduledAt { get; set; } = default!;
+
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -10597,6 +10600,9 @@ namespace ControlResell.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("accountIds")]
         public System.Collections.Generic.ICollection<System.Guid>? AccountIds { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("scheduledAt")]
+        public System.DateTimeOffset? ScheduledAt { get; set; } = default!;
+
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -10623,6 +10629,9 @@ namespace ControlResell.Sdk
 
         [System.Text.Json.Serialization.JsonPropertyName("allowIfDeleted")]
         public bool? AllowIfDeleted { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("scheduledAt")]
+        public System.DateTimeOffset? ScheduledAt { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
