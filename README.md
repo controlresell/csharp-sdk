@@ -23,10 +23,9 @@ await foreach (var order in client.Orders.ListAllOrdersAsync(bucket: "to_send"))
 
 // Writes (API key with `items:write` / `conversations:write`).
 var item = await client.Items.CreateItemAsync(new ItemCreateRequest { Name = "Jacket" });
-await client.Items.PublishItemAsync(item.Id, new PublishRequest { AccountIds = new[] { accountId } });
 // PublishRequest, PriceDropRequest and RepublishRequest take an optional ScheduledAt (a DateTimeOffset, at most 30 days ahead):
-// the action starts then instead of now, and the 202 receipt carries the date.
-await client.Items.RepublishItemAsync(item.Id, new RepublishRequest { ScheduledAt = DateTimeOffset.UtcNow.AddDays(1) });
+// the action starts then instead of now (tomorrow here), and the 202 receipt carries the date.
+await client.Items.PublishItemAsync(item.Id, new PublishRequest { AccountIds = new[] { accountId }, ScheduledAt = DateTimeOffset.UtcNow.AddDays(1) });
 await client.Conversations.SendMessageAsync(conversationId, new SendMessageRequest { Text = "Hello!" });
 
 // Webhooks (`webhooks:read` / `webhooks:write`); ListAllWebhookEventsAsync catches up the last 7 days.
