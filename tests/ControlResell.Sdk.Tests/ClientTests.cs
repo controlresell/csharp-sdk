@@ -71,6 +71,27 @@ public class ClientTests
     }
 
     [Fact]
+    public async Task Publish_price_drop_and_republish_carry_scheduledAt()
+    {
+        const string receipt = "{\"itemId\":7,\"action\":\"publish\",\"accountIds\":[\"3f2c1c0e-5b7a-4a3e-9d1e-0a1b2c3d4e5f\"],\"scheduledAt\":\"2026-11-01T09:30:00Z\"}";
+        var (client, stub, _) = NewClient(_ => Json(receipt, HttpStatusCode.Accepted));
+        var at = new DateTimeOffset(2026, 11, 1, 9, 30, 0, TimeSpan.Zero);
+        var account = Guid.Parse("3f2c1c0e-5b7a-4a3e-9d1e-0a1b2c3d4e5f");
+
+        var result = await client.Items.PublishItemAsync(7, new PublishRequest { AccountIds = new[] { account }, ScheduledAt = at });
+        await client.Items.DropItemPriceAsync(7, new PriceDropRequest { Type = "percent", Value = "10", ScheduledAt = at });
+        await client.Items.RepublishItemAsync(7, new RepublishRequest { ScheduledAt = at });
+
+        Assert.Equal(at, result.ScheduledAt);
+        Assert.Equal(3, stub.Requests.Count);
+        foreach (var request in stub.Requests)
+        {
+            using var body = System.Text.Json.JsonDocument.Parse(request.Body);
+            Assert.Equal(at, body.RootElement.GetProperty("scheduledAt").GetDateTimeOffset());
+        }
+    }
+
+    [Fact]
     public async Task An_error_is_typed_by_its_status_with_its_code_params_and_request_id()
     {
         var (client, stub, _) = NewClient(_ => Error("item_not_found", HttpStatusCode.NotFound));
